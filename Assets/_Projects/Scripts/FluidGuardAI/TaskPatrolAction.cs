@@ -41,7 +41,7 @@ public class TaskPatrolAction : ActionBase
         _walk = _guardBehavior._walk;
         _animancer = _guardBehavior._Animancer;
         _agent = _guardBehavior._agent; 
-       // _animancer.Play(_idle); 
+        _animancer.Play(_idle); 
 
 
 
@@ -77,7 +77,7 @@ public class TaskPatrolAction : ActionBase
             {
                 // _transform.position = Vector3.MoveTowards(_transform.position, wp.position, GuardBT.speed * Time.deltaTime);
                 //_transform.LookAt(wp.position);
-              //  _animancer.Play(_walk);
+                _animancer.Play(_walk);
                 _agent.SetDestination(wp.position); 
             }
         }

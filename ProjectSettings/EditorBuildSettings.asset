@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/BehaviorTreeTest.unity
+    path: Assets/_Projects/Scenes/BehaviorTreeTest.unity
     guid: b44de1dfc3dfb104c876d2a93be67d8c
   m_configObjects: {}

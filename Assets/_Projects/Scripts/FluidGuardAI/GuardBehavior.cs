@@ -167,7 +167,7 @@ public class GuardBehavior : NetworkBehaviour
 
     private void Update()
     {
-       
+        if (!IsServer) return; 
             // Update our tree every frame
             _tree.Tick();
         

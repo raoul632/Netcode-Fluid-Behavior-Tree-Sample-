@@ -1,8 +1,6 @@
 using UnityEngine;
-using CleverCrow.Fluid.ElasticInventory;
-using static UnityEditor.Progress;
 using System.Collections.Generic;
-using CleverCrow.Fluid.BTs.Tasks;
+
 
 public class InventoryManager : MonoBehaviour
 {
