@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 402644587123506442}
   - component: {fileID: 402644587123506443}
   - component: {fileID: 402644587123506438}
-  - component: {fileID: 6935397520159001458}
+  - component: {fileID: 2527563580899641074}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Untagged
@@ -357,7 +357,7 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &6935397520159001458
+--- !u!114 &2527563580899641074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3690570736648361613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6b8a22899e5069408f0e638f3075946, type: 3}
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []

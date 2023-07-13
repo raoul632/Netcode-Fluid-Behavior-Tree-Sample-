@@ -29,10 +29,13 @@ public class SpawnManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log("On Network Spawn ");
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
-        Transform spawnedGuard = Instantiate(_guardNetworkPrefab);
-        spawnedGuard.GetComponent<NetworkObject>().Spawn(true);
+        if (IsServer)
+        {
+            Debug.Log("On Network Spawn ");
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+            Transform spawnedGuard = Instantiate(_guardNetworkPrefab);
+            spawnedGuard.GetComponent<NetworkObject>().Spawn(true);
+        }
     }
 
 

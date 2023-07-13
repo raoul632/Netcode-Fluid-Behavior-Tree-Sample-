@@ -61,7 +61,7 @@ public class GuardBehavior : NetworkBehaviour
             // Fais quelque chose avec chaque enfant
             Debug.Log("Enfant : " + child.name);
         }
-        InitBehaviorTree();
+        
     }
 
 
@@ -72,12 +72,18 @@ public class GuardBehavior : NetworkBehaviour
 
     }
 
+   public override void OnNetworkSpawn()
+    {
+        InitBehaviorTree();
+    }
+
     private void InitBehaviorTree()
     {
         _tree = new BehaviorTreeBuilder(gameObject)
            .Selector()
             .Sequence("Patrol")
             .Condition("Enemy In Range", () => !HasEnemyInRange)
+            .Condition("Is Server Authoritative", () => IsServer)
                  .Do("See Enemy", () =>
                  {
                      hitColliders = Physics.OverlapSphere(transform.position, 4);
@@ -114,6 +120,7 @@ public class GuardBehavior : NetworkBehaviour
             .End()
             .Sequence("Go to enemy")
                 .Condition("Enemy In Range", () => HasEnemyInRange && !IsAttacking)
+                .Condition("Is Server Authoritative", () => IsServer)
                  .Do("Reach Enemy", () =>
                  {
                      if (_enemy == null) { return TaskStatus.Failure; }
@@ -127,6 +134,7 @@ public class GuardBehavior : NetworkBehaviour
                          _agent.ResetPath();
                          IsAttacking = true;
                          Debug.Log("I've reached an enemy");
+                         
                          _Animancer.Play(_attack);
 
                          return TaskStatus.Failure;
@@ -135,6 +143,7 @@ public class GuardBehavior : NetworkBehaviour
                  }).End()
             .Sequence("Attacking")
                 .Condition("Enemy In Range", () => IsAttacking)
+                .Condition("Is Server Authoritative", () => IsServer)
                  .Do("Reach Enemy", () =>
                  {
                      float distance = 999.9f;
