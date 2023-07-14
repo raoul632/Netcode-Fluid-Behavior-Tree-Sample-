@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 public class NetworkButtons : MonoBehaviour
@@ -12,6 +13,7 @@ public class NetworkButtons : MonoBehaviour
             if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
             if (GUILayout.Button("Client")) NetworkManager.Singleton.StartClient();
         }
+        
 
         GUILayout.EndArea();
     }

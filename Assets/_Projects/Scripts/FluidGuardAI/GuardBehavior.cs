@@ -7,6 +7,7 @@ using UnityEngine;
 using Animancer;
 using UnityEngine.AI;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 
 public static class BehaviorTreeBuilderExtensions {
     public static BehaviorTreeBuilder TaskPatrolAction(this BehaviorTreeBuilder builder, string name = "Task Patrol") {
@@ -16,11 +17,16 @@ public static class BehaviorTreeBuilderExtensions {
 
 public class GuardBehavior : NetworkBehaviour
 {
+   
+
     [SerializeField]
     private BehaviorTree _tree;
 
     [SerializeField]
     public Transform[] _waypoints;
+
+    [SerializeField]
+    public List<ClipTransition> ClipsAnimancer; 
 
     [SerializeField]
     public ClipTransition _idle;
@@ -47,11 +53,26 @@ public class GuardBehavior : NetworkBehaviour
     bool HasEnemyInRange = false;
     [SerializeField]
     bool IsAttacking = false;
-    Collider[] hitColliders; 
+    Collider[] hitColliders;
+
+    NetworkAnimancer _networkAnimancer; 
+
+    
 
     private void Start()
     {
-        _agent = GetComponent<NavMeshAgent>(); 
+        _agent = GetComponent<NavMeshAgent>();
+        _networkAnimancer = GetComponent<NetworkAnimancer>();
+        ClipsAnimancer = new List<ClipTransition>(); 
+        ClipsAnimancer.Add(_idle);
+        ClipsAnimancer.Add(_walk);
+        ClipsAnimancer.Add(_attack);
+
+        _networkAnimancer.Clips.AddClip(_idle.Clip.name);
+        Debug.Log("Idle name are " +_idle.Clip.name); 
+        _networkAnimancer.Clips.AddClip(_walk.Clip.name);
+        _networkAnimancer.Clips.AddClip(_attack.Clip.name);
+
         GameObject parcours = GameObject.Find("Parcours");
         int childCount = parcours.transform.childCount;
         for (int i = 0; i < childCount; i++)
@@ -99,6 +120,8 @@ public class GuardBehavior : NetworkBehaviour
                              Debug.Log("I've watched an enemy");
                              return TaskStatus.Failure;
                          }
+
+                         
                      }
 
 
@@ -134,8 +157,11 @@ public class GuardBehavior : NetworkBehaviour
                          _agent.ResetPath();
                          IsAttacking = true;
                          Debug.Log("I've reached an enemy");
-                         
                          _Animancer.Play(_attack);
+                         
+                         _networkAnimancer.SendAnimancerStateClientRpc(_attack.Clip.name); 
+                         
+                         
 
                          return TaskStatus.Failure;
                      }
