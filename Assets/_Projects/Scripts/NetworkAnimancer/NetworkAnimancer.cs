@@ -12,34 +12,20 @@ public class NetworkAnimancer : NetworkBehaviour
     AnimancerComponent _animancer;
 
     [System.Serializable]
-    public class ClipToSend
+    public struct SerializedClipData
     {
-        public List<string> Clip;
-
-        public ClipToSend()
-        {
-            Clip = new List<string>();
-        }
-
-        public void AddClip(string name)
-        {
-            Clip.Add(name);
-        }
-
-        public List<string> GetClips()
-        {
-            return Clip; 
-        }
+        public string clipName;
+        // Ajoutez d'autres informations sur le clip si nécessaire
     }
 
-    public ClipToSend Clips;
+    // public ClipToSend Clips;
     private GuardBehavior _guardBehavior; 
 
     private void Start()
     {
         _animancer = GetComponent<AnimancerComponent>();
         _guardBehavior = GetComponent<GuardBehavior>(); 
-        Clips = new ClipToSend(); 
+       // Clips = new ClipToSend(); 
     }
     // Start is called before the first frame update
     [ClientRpc]

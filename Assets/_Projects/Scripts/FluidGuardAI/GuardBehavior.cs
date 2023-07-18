@@ -68,10 +68,7 @@ public class GuardBehavior : NetworkBehaviour
         ClipsAnimancer.Add(_walk);
         ClipsAnimancer.Add(_attack);
 
-        _networkAnimancer.Clips.AddClip(_idle.Clip.name);
-        Debug.Log("Idle name are " +_idle.Clip.name); 
-        _networkAnimancer.Clips.AddClip(_walk.Clip.name);
-        _networkAnimancer.Clips.AddClip(_attack.Clip.name);
+       
 
         GameObject parcours = GameObject.Find("Parcours");
         int childCount = parcours.transform.childCount;

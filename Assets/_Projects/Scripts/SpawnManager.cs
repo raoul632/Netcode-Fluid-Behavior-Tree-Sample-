@@ -32,7 +32,7 @@ public class SpawnManager : NetworkBehaviour
         if (IsServer)
         {
             Debug.Log("On Network Spawn ");
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+           // NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
             Transform spawnedGuard = Instantiate(_guardNetworkPrefab);
             spawnedGuard.GetComponent<NetworkObject>().Spawn(true);
         }
