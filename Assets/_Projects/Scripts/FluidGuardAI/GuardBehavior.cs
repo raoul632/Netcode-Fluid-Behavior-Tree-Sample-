@@ -15,7 +15,7 @@ public static class BehaviorTreeBuilderExtensions {
     }
 }
 
-public class GuardBehavior : NetworkBehaviour
+public class GuardBehavior : NetworkBehaviour, IAnimationProvider
 {
    
 
@@ -25,8 +25,14 @@ public class GuardBehavior : NetworkBehaviour
     [SerializeField]
     public Transform[] _waypoints;
 
-    [SerializeField]
-    public List<ClipTransition> ClipsAnimancer; 
+    
+
+    private List<ClipTransition> _clipsAnimancer;
+    public List<ClipTransition> ClipsAnimancer
+    {
+        get { return _clipsAnimancer; }
+        set { _clipsAnimancer = value; }
+    }
 
     [SerializeField]
     public ClipTransition _idle;
@@ -63,10 +69,10 @@ public class GuardBehavior : NetworkBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _networkAnimancer = GetComponent<NetworkAnimancer>();
-        ClipsAnimancer = new List<ClipTransition>(); 
-        ClipsAnimancer.Add(_idle);
-        ClipsAnimancer.Add(_walk);
-        ClipsAnimancer.Add(_attack);
+        ClipsAnimancer = new List<ClipTransition>();
+        _clipsAnimancer.Add(_idle);
+        _clipsAnimancer.Add(_walk);
+        _clipsAnimancer.Add(_attack);
 
        
 

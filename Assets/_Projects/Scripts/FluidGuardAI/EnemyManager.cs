@@ -21,6 +21,14 @@ public class EnemyManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void DieServerRpc()
     {
+
+        gameObject.GetComponent<NetworkObject>().Despawn(); 
+        //DieOnAllClientRpc(); 
+    }
+
+    [ClientRpc]
+    private void DieOnAllClientRpc()
+    {
         Destroy(gameObject);
     }
 }

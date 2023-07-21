@@ -11,6 +11,9 @@ public class NetworkAnimancer : NetworkBehaviour
 {
     AnimancerComponent _animancer;
 
+    
+    public List<ClipTransition> ClipsAnimancer;
+   
     [System.Serializable]
     public struct SerializedClipData
     {
@@ -19,22 +22,35 @@ public class NetworkAnimancer : NetworkBehaviour
     }
 
     // public ClipToSend Clips;
-    private GuardBehavior _guardBehavior; 
+ 
 
     private void Start()
     {
+        
         _animancer = GetComponent<AnimancerComponent>();
-        _guardBehavior = GetComponent<GuardBehavior>(); 
-       // Clips = new ClipToSend(); 
+    
     }
+
+
     // Start is called before the first frame update
     [ClientRpc]
     public void SendAnimancerStateClientRpc(string clipName)
     {
         Debug.Log("i've received a message from the server");
+        //abstract this call guardBehavior or NetworkPlayerController
+        ClipTransition goodClip = null; 
+        foreach(ClipTransition c in ClipsAnimancer)
+        {
+            if(c.Clip.name == clipName)
+            {
+                goodClip = c; 
+            }
 
-        var c = _guardBehavior.ClipsAnimancer.Find(clip => clip.Name == clipName);
-        _animancer.Play(c); 
+        }
+        //var c = ClipsAnimancer.Find(clip => clip.Name == clipName);
+        _animancer.Play(goodClip); 
 
     }
+
+   
 }
