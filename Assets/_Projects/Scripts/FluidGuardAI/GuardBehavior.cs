@@ -15,7 +15,7 @@ public static class BehaviorTreeBuilderExtensions {
     }
 }
 
-public class GuardBehavior : NetworkBehaviour, IAnimationProvider
+public class GuardBehavior : NetworkBehaviour
 {
    
 
@@ -26,13 +26,8 @@ public class GuardBehavior : NetworkBehaviour, IAnimationProvider
     public Transform[] _waypoints;
 
     
-
-    private List<ClipTransition> _clipsAnimancer;
-    public List<ClipTransition> ClipsAnimancer
-    {
-        get { return _clipsAnimancer; }
-        set { _clipsAnimancer = value; }
-    }
+    //bad naming convention _idle with public accessor 
+    //find another way to get access to network animancer 
 
     [SerializeField]
     public ClipTransition _idle;
@@ -61,7 +56,7 @@ public class GuardBehavior : NetworkBehaviour, IAnimationProvider
     bool IsAttacking = false;
     Collider[] hitColliders;
 
-    NetworkAnimancer _networkAnimancer; 
+    public NetworkAnimancer _networkAnimancer; 
 
     
 
@@ -69,12 +64,13 @@ public class GuardBehavior : NetworkBehaviour, IAnimationProvider
     {
         _agent = GetComponent<NavMeshAgent>();
         _networkAnimancer = GetComponent<NetworkAnimancer>();
-        ClipsAnimancer = new List<ClipTransition>();
-        _clipsAnimancer.Add(_idle);
-        _clipsAnimancer.Add(_walk);
-        _clipsAnimancer.Add(_attack);
+      
 
-       
+        _networkAnimancer.AddAnimationToDictionary("Idle", _idle);
+        _networkAnimancer.AddAnimationToDictionary("Walk", _walk);
+        _networkAnimancer.AddAnimationToDictionary("Attack", _attack);
+
+
 
         GameObject parcours = GameObject.Find("Parcours");
         int childCount = parcours.transform.childCount;
@@ -128,18 +124,7 @@ public class GuardBehavior : NetworkBehaviour, IAnimationProvider
                      }
 
 
-                     //float distance = 999.0f;
-                     //if (_enemy != null)
-                     //{
-                     //    Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(_enemy.transform.position.x, _enemy.transform.position.z));
-                     //}
-
-                     //  Debug.Log("I have the task to watch an enemy the distance is " + distance);
-                     //if (distance < 4)
-                     //{
-                     //   // _Animancer.Play(_idle); 
-
-                     //}
+                     
                      return TaskStatus.Success;
                  })
                 .TaskPatrolAction()
@@ -162,7 +147,7 @@ public class GuardBehavior : NetworkBehaviour, IAnimationProvider
                          Debug.Log("I've reached an enemy");
                          _Animancer.Play(_attack);
                          
-                         _networkAnimancer.SendAnimancerStateClientRpc(_attack.Clip.name); 
+                         _networkAnimancer.SendAnimancerStateClientRpc("Attack"); 
                          
                          
 

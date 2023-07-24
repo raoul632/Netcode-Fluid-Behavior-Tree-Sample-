@@ -27,6 +27,7 @@ public class TaskPatrolAction : ActionBase
     private ClipTransition _attack;
     private ClipTransition _walk;
     private NavMeshAgent _agent;
+    private NetworkAnimancer _networkAnimancer; 
 
 
 
@@ -40,8 +41,10 @@ public class TaskPatrolAction : ActionBase
         _attack = _guardBehavior._attack;
         _walk = _guardBehavior._walk;
         _animancer = _guardBehavior._Animancer;
-        _agent = _guardBehavior._agent; 
-        _animancer.Play(_idle); 
+        _agent = _guardBehavior._agent;
+        _networkAnimancer = _guardBehavior._networkAnimancer; 
+       
+       
 
 
 
@@ -51,11 +54,14 @@ public class TaskPatrolAction : ActionBase
     {
        
     }
+
+
     protected override TaskStatus OnUpdate()
     {
         if (_waiting)
         {
             _animancer.Play(_idle);
+            _networkAnimancer.SendAnimancerStateClientRpc("Idle");
             _waitCounter += Time.deltaTime;
             if (_waitCounter >= _waitTime)
             {
@@ -78,6 +84,7 @@ public class TaskPatrolAction : ActionBase
                 // _transform.position = Vector3.MoveTowards(_transform.position, wp.position, GuardBT.speed * Time.deltaTime);
                 //_transform.LookAt(wp.position);
                 _animancer.Play(_walk);
+                _networkAnimancer.SendAnimancerStateClientRpc("Walk");
                 _agent.SetDestination(wp.position); 
             }
         }

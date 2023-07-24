@@ -11,9 +11,15 @@ public class NetworkAnimancer : NetworkBehaviour
 {
     AnimancerComponent _animancer;
 
-    
-    public List<ClipTransition> ClipsAnimancer;
-   
+    public Dictionary<string, ClipTransition> animationDictionary = new Dictionary<string, ClipTransition>();
+
+    // 
+    // Add Animation to the dictionnary 
+    public void AddAnimationToDictionary(string clipName, ClipTransition animationClip)
+    {
+        animationDictionary[clipName] = animationClip;
+    }
+
     [System.Serializable]
     public struct SerializedClipData
     {
@@ -22,12 +28,16 @@ public class NetworkAnimancer : NetworkBehaviour
     }
 
     // public ClipToSend Clips;
- 
+
+    private void Awake()
+    {
+        _animancer = GetComponent<AnimancerComponent>();
+    }
 
     private void Start()
     {
         
-        _animancer = GetComponent<AnimancerComponent>();
+        
     
     }
 
@@ -38,17 +48,21 @@ public class NetworkAnimancer : NetworkBehaviour
     {
         Debug.Log("i've received a message from the server");
         //abstract this call guardBehavior or NetworkPlayerController
-        ClipTransition goodClip = null; 
-        foreach(ClipTransition c in ClipsAnimancer)
-        {
-            if(c.Clip.name == clipName)
-            {
-                goodClip = c; 
-            }
 
+        if (animationDictionary.ContainsKey(clipName))
+        {
+            ClipTransition clip = null;
+
+            if (animationDictionary.TryGetValue(clipName, out clip))
+            {
+                //var c = ClipsAnimancer.Find(clip => clip.Name == clipName);
+                _animancer.Play(clip);
+            }
+            else
+            {
+                Debug.LogWarning($"Animation clip '{clipName}' not found in the dictionary.");
+            }
         }
-        //var c = ClipsAnimancer.Find(clip => clip.Name == clipName);
-        _animancer.Play(goodClip); 
 
     }
 
