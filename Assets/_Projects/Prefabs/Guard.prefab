@@ -258,6 +258,7 @@ MonoBehaviour:
   _enemy: {fileID: 0}
   HasEnemyInRange: 0
   IsAttacking: 0
+  _networkAnimancer: {fileID: 0}
 --- !u!114 &3630239063450884484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,28 +370,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd93632d93c60994f80a3c2a1672e24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClipsAnimancer:
-  - _FadeDuration: 0.25
-    _Events:
-      _NormalizedTimes: []
-      _Callbacks: []
-      _Names: []
-    _Clip: {fileID: 7400000, guid: a9e82453b26b1e346962cadcba80556a, type: 3}
-    _Speed: 1
-    _NormalizedStartTime: NaN
-  - _FadeDuration: 0.25
-    _Events:
-      _NormalizedTimes: []
-      _Callbacks: []
-      _Names: []
-    _Clip: {fileID: 7400000, guid: 0932505f83189174e9405ca64f635505, type: 3}
-    _Speed: 1
-    _NormalizedStartTime: NaN
-  - _FadeDuration: 0.25
-    _Events:
-      _NormalizedTimes: []
-      _Callbacks: []
-      _Names: []
-    _Clip: {fileID: 7400000, guid: 0cbd46aa8abdd9b409d3cfd4265bdd3f, type: 3}
-    _Speed: 1
-    _NormalizedStartTime: NaN

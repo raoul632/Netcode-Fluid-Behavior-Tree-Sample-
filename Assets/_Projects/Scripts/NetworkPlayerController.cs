@@ -19,6 +19,12 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField]
     public AnimancerComponent _animancer;
 
+    [SerializeField]
+    private ClipTransition _idle;
+
+    [SerializeField]
+    private ClipTransition _walk;
+
     NetworkAnimancer _networkAnimancer;
 
     // client caches positions
@@ -36,7 +42,8 @@ public class NetworkPlayerController : NetworkBehaviour
         _animancer = GetComponent<AnimancerComponent>();
         _networkAnimancer = GetComponent<NetworkAnimancer>();
 
-
+        _networkAnimancer.AddAnimationToDictionary("Idle", _idle);
+        _networkAnimancer.AddAnimationToDictionary("Walk", _walk);
 
 
     }
@@ -98,14 +105,20 @@ public class NetworkPlayerController : NetworkBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         Vector3 inputPosition = direction * forwardInput;
 
+       
+
         if (forwardInput == 0)
         {
             //animation idle
             //UpdateAnimancerStateServerRpc
+            _animancer.Play(_idle); 
+            _networkAnimancer.SendAnimancerStateClientRpc("Idle"); 
         }
-        else if (forwardInput > 0 && forwardInput < 0) { 
+        else if (forwardInput > 0 || forwardInput < 0) {
 
             //animation walk 
+            _animancer.Play(_walk);
+            _networkAnimancer.SendAnimancerStateClientRpc("Walk");
         }
 
         if (oldInputPosition != inputPosition ||
